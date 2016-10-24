@@ -54,13 +54,9 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _note = __webpack_require__(172);
+	var _store = __webpack_require__(192);
 	
-	var _note2 = _interopRequireDefault(_note);
-	
-	var _root_reducer = __webpack_require__(176);
-	
-	var _root_reducer2 = _interopRequireDefault(_root_reducer);
+	var _store2 = _interopRequireDefault(_store);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -73,11 +69,10 @@
 	};
 	
 	document.addEventListener("DOMContentLoaded", function () {
-	  var note = new _note2.default(800);
-	  window.noteReducer = _root_reducer2.default;
-	  window.note = note;
+	  var store = (0, _store2.default)();
 	  var root = document.getElementById("root");
 	  _reactDom2.default.render(_react2.default.createElement(App, null), root);
+	  window.store = store;
 	});
 
 /***/ },
@@ -21448,66 +21443,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 172 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var ctx = new (window.AudioContext || window.webkitAudioContext)();
-	
-	var createOscillator = function createOscillator(freq) {
-	  var osc = ctx.createOscillator();
-	  osc.type = "sine";
-	  osc.frequency.value = freq;
-	  osc.detune.value = 0;
-	  osc.start(ctx.currentTime);
-	  return osc;
-	};
-	
-	var createGainNode = function createGainNode() {
-	  var gainNode = ctx.createGain();
-	  gainNode.gain.value = 0;
-	  gainNode.connect(ctx.destination);
-	  return gainNode;
-	};
-	
-	var Note = function () {
-	  function Note(freq) {
-	    _classCallCheck(this, Note);
-	
-	    this.oscillatorNode = createOscillator(freq);
-	    this.gainNode = createGainNode();
-	    this.oscillatorNode.connect(this.gainNode);
-	  }
-	
-	  _createClass(Note, [{
-	    key: "start",
-	    value: function start() {
-	      this.gainNode.gain.value = 0.3;
-	    }
-	  }, {
-	    key: "stop",
-	    value: function stop() {
-	      this.gainNode.gain.value = 0;
-	    }
-	  }]);
-	
-	  return Note;
-	}();
-	
-	;
-	
-	exports.default = Note;
-
-/***/ },
+/* 172 */,
 /* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -21523,9 +21459,7 @@
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
-	var _defaultState = {
-	  notes: []
-	};
+	var _defaultState = [];
 	
 	var _checkKey = function _checkKey(key) {
 	  return _tones.NOTE_NAMES.indexOf(key) >= 0;
@@ -21535,25 +21469,22 @@
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _defaultState;
 	  var action = arguments[1];
 	
-	  debugger;
 	  Object.freeze(state);
 	  if (!_checkKey(action.key)) {
 	    return state;
 	  }
 	  switch (action.type) {
 	    case _note_actions.KEY_PRESSED:
-	      if (state.notes.indexOf(action.key) >= 0) {
+	      if (state.indexOf(action.key) >= 0) {
 	        return state;
 	      } else {
-	        return {
-	          notes: [].concat(_toConsumableArray(state.notes), [action.key])
-	        };
+	        return [].concat(_toConsumableArray(state), [action.key]);
 	      }
 	    case _note_actions.KEY_RELEASED:
-	      if (state.notes.indexOf(action.key) >= 0) {
-	        var notes = state.notes.slice();
+	      if (state.indexOf(action.key) >= 0) {
+	        var notes = state.slice();
 	        notes.splice(notes.indexOf(action.key), 1);
-	        return { notes: notes };
+	        return notes;
 	      } else {
 	        return state;
 	      }
@@ -22519,6 +22450,30 @@
 	    }, last.apply(undefined, arguments));
 	  };
 	}
+
+/***/ },
+/* 192 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _redux = __webpack_require__(177);
+	
+	var _root_reducer = __webpack_require__(176);
+	
+	var _root_reducer2 = _interopRequireDefault(_root_reducer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var configureStore = function configureStore() {
+	  return (0, _redux.createStore)(_root_reducer2.default);
+	};
+	
+	exports.default = configureStore;
 
 /***/ }
 /******/ ]);
