@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import configureStore from './store/store';
+import Root from './components/root.jsx';
 
 
 
@@ -13,8 +14,15 @@ document.addEventListener("DOMContentLoaded",
     const store = configureStore();
     const root = document.getElementById("root");
     ReactDOM.render(
-      <App />, root
+      < Root store={store} />, root
     );
     window.store = store;
   }
 );
+
+
+/*
+<Foo, x={y}, b={c}>
+
+Foo({x: y, b: c})
+*/
