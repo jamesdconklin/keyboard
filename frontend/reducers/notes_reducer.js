@@ -30,6 +30,7 @@ const noteReducer = (state = _defaultState, action) => {
         return state;
       }
     case GROUP_UPDATE:
+      return action.notes;
     default:
       return state;
   }

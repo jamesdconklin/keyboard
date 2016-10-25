@@ -23176,6 +23176,10 @@
 	
 	var _recorder_container2 = _interopRequireDefault(_recorder_container);
 	
+	var _jukebox_container = __webpack_require__(302);
+	
+	var _jukebox_container2 = _interopRequireDefault(_jukebox_container);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var App = function App() {
@@ -23183,7 +23187,8 @@
 	    'div',
 	    { className: 'app' },
 	    _react2.default.createElement(_synth_container2.default, null),
-	    _react2.default.createElement(_recorder_container2.default, null)
+	    _react2.default.createElement(_recorder_container2.default, null),
+	    _react2.default.createElement(_jukebox_container2.default, null)
 	  );
 	};
 	
@@ -33903,6 +33908,7 @@
 	        return state;
 	      }
 	    case _playing_actions.GROUP_UPDATE:
+	      return action.notes;
 	    default:
 	      return state;
 	  }
@@ -36759,6 +36765,78 @@
 	      return state;
 	  }
 	};
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(190);
+	
+	var _jukebox = __webpack_require__(303);
+	
+	var _jukebox2 = _interopRequireDefault(_jukebox);
+	
+	var _note_actions = __webpack_require__(206);
+	
+	var _playing_actions = __webpack_require__(211);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    tracks: state.tracks,
+	    isRecording: state.isRecording,
+	    isPlaying: state.isPlaying
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    groupUpdate: function groupUpdate(notes) {
+	      return dispatch((0, _note_actions.groupUpdate)(notes));
+	    },
+	    startPlaying: function startPlaying() {
+	      return dispatch((0, _playing_actions.startPlaying)());
+	    },
+	    stopPlaying: function stopPlaying() {
+	      return dispatch((0, _playing_actions.stopPlaying)());
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_jukebox2.default);
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Jukebox = function Jukebox() {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    'FINELY ENGINEERED BOX OF JUKES'
+	  );
+	};
+	
+	exports.default = Jukebox;
 
 /***/ }
 /******/ ]);
